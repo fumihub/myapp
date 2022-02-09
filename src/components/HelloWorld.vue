@@ -25,6 +25,7 @@
 
       <v-col class="mb-5" cols="12">
         <h2 class="headline font-weight-bold mb-3">What's next?</h2>
+        <h1 class="display-2 font-weight-bold mb-3">test test test</h1>
 
         <v-row justify="center">
           <a
