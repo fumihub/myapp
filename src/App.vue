@@ -35,16 +35,52 @@
 
     <v-main>
       <router-view />
+      loggedIn: {{ loggedIn }}
+      {{ profile.statusMessage }}
     </v-main>
   </v-app>
 </template>
 
 <script>
+import liff from "@line/liff";
+
 export default {
   name: "App",
 
-  data: () => ({
-    //
-  }),
+  data() {
+    return {
+      loggedIn: false,
+      profile: {},
+      displayName: "",
+    };
+  },
+  mounted() {
+    // 最初に必ず実行する
+    liff
+      .init({ liffId: "1657007369-vbDgddDN" }) // LIFF IDを貼る
+      .then(() => {
+        this.loggedIn = liff.isLoggedIn();
+        this.getProfile();
+      })
+      .catch((err) => {
+        // Error happens during initialization
+        this.occoredError = "error:" + err;
+      })
+      .sendMessages([
+        {
+          type: "image",
+          originalContentUrl: require("./assets/logo.png"),
+          previewImageUrl: "./assets/logo.png",
+        },
+      ]);
+  },
+  methods: {
+    // ログインユーザーのプロフィールを取得する
+    getProfile() {
+      liff.getProfile().then((profile) => {
+        this.profile = profile;
+      });
+    },
+  },
 };
 </script>
